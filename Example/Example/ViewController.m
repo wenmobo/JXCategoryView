@@ -11,6 +11,7 @@
 #import "CellCustomizeViewController.h"
 #import "SpecialCustomizeViewController.h"
 #import "CustomizationListViewController.h"
+#import "ListContainerVC.h"
 
 @implementation ViewController
 
@@ -68,6 +69,12 @@
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
+        case 4:
+        {
+            ListContainerVC *vc = [[ListContainerVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+            break;
         default:
             break;
     }
