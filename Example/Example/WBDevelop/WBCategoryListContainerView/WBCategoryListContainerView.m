@@ -58,7 +58,7 @@
 @property (nonatomic, strong) WBCategoryListContainerViewController *containerVC;
 
 @property (nonatomic, assign) CGPoint lastContentViewContentOffset;
-@property (nonatomic, strong) NSMutableArray <id<WBCategoryListContentViewDelegate>>*cachedArray;
+@property (nonatomic, strong) NSMutableArray <NSNumber *>*cachedArray;
 
 @end
 
@@ -334,6 +334,12 @@
     }
 }
 
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(listContainerViewWillEndDragging:withVelocity:targetContentOffset:)]) {
+        [self.delegate listContainerViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
+    }
+}
+
 // MARK: - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"contentOffset"]) {
@@ -428,6 +434,7 @@
         }
     }
     [_validListDict removeAllObjects];
+    [self.cachedArray removeAllObjects];
 
     if (self.containerType == WBCategoryListContainerType_ScrollView) {
         self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width*[self.delegate numberOfListsInlistContainerView:self], self.scrollView.bounds.size.height);
@@ -448,32 +455,16 @@
         }
     }
     
-    /// 缓存数量大于置顶值，移除最早创建的视图
-    if (self.cacheCount > 0 && self.cachedArray.count >= self.cacheCount) {
-        id<WBCategoryListContentViewDelegate> earliestList = self.cachedArray.firstObject;
-        
-        [_validListDict enumerateKeysAndObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSNumber * _Nonnull key, id<WBCategoryListContentViewDelegate>  _Nonnull obj, BOOL * _Nonnull stop) {
-            if (obj == earliestList) {
-                [[obj listView] removeFromSuperview];
-                if ([obj isKindOfClass:[UIViewController class]]) {
-                    [(UIViewController *)obj removeFromParentViewController];
-                }
-                [_validListDict removeObjectForKey:key];
-                [self.cachedArray removeObject:earliestList];
-                *stop = YES;
-            }
-        }];
-    }
-    
     id<WBCategoryListContentViewDelegate> list = _validListDict[@(index)];
     if (list != nil) {
         //列表已经创建好了
         return;
     }
-    list = [self.delegate listContainerView:self initListForIndex:index];
     
-    /// 添加到缓存数组
-    [self.cachedArray addObject:list];
+    /// 缓存数量大于最大值，移除最早创建的视图
+    [self setListCacheForKey:index];
+    
+    list = [self.delegate listContainerView:self initListForIndex:index];
     
     if ([list isKindOfClass:[UIViewController class]]) {
         [self.containerVC addChildViewController:(UIViewController *)list];
@@ -516,6 +507,9 @@
         if (canInitList) {
             id<WBCategoryListContentViewDelegate> list = _validListDict[@(index)];
             if (list == nil) {
+                /// 处理缓存
+                [self setListCacheForKey:index];
+                
                 list = [self.delegate listContainerView:self initListForIndex:index];
                 if ([list isKindOfClass:[UIViewController class]]) {
                     [self.containerVC addChildViewController:(UIViewController *)list];
@@ -569,6 +563,9 @@
         UIViewController *listVC = (UIViewController *)list;
         [listVC endAppearanceTransition];
     }
+    
+    /// 处理读取缓存
+    [self listCacheForKey:@(index)];
 }
 
 - (void)listWillDisappear:(NSInteger)index {
@@ -632,8 +629,44 @@
     }
 }
 
+- (void)setListCacheForKey:(NSInteger)index {
+    if (self.cacheCount <= 0) return;
+    
+    if (self.cachedArray.count >= self.cacheCount) {
+        NSNumber *oldIndex = self.cachedArray.firstObject;
+        
+        [_validListDict enumerateKeysAndObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSNumber * _Nonnull key, id<WBCategoryListContentViewDelegate>  _Nonnull obj, BOOL * _Nonnull stop) {
+            if ([key isEqualToNumber:oldIndex]) {
+                [[obj listView] removeFromSuperview];
+                if ([obj isKindOfClass:[UIViewController class]]) {
+                    [(UIViewController *)obj removeFromParentViewController];
+                }
+                [_validListDict removeObjectForKey:key];
+                [self.cachedArray removeObject:key];
+                *stop = YES;
+            }
+        }];
+    }
+    
+    /// 添加到缓存
+    [self.cachedArray addObject:@(index)];
+}
+
+- (id<WBCategoryListContentViewDelegate>)listCacheForKey:(NSNumber *)index {
+    if (self.cacheCount <= 0) nil;
+    if (!index) return nil;;
+    
+    id<WBCategoryListContentViewDelegate> list = _validListDict[index];
+    
+    /// 读取内容放到末尾
+    [self.cachedArray removeObject:index];
+    [self.cachedArray addObject:index];
+    
+    return list;
+}
+
 // MARK: - getter
-- (NSMutableArray<id<WBCategoryListContentViewDelegate>> *)cachedArray {
+- (NSMutableArray<NSNumber *> *)cachedArray {
     if (!_cachedArray) {
         _cachedArray = @[].mutableCopy;
     }

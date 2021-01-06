@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <JXCategoryView.h>
 @class WBCategoryListContainerView;
 
 /**
@@ -114,6 +115,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param scrollView 滑动容器视图
 - (void)listContainerViewDidEndDecelerating:(UIScrollView *)scrollView;
 
+/// called on finger up if the user dragged. velocity is in points/millisecond. targetContentOffset may be changed to adjust where the scroll view comes to rest
+- (void)listContainerViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
+
 @end
 
 @interface WBCategoryListContainerView : UIView <JXCategoryViewListContainer>
@@ -127,8 +131,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) CGFloat initListPercent;
 @property (nonatomic, assign) BOOL bounces; //默认NO
-/// 缓存列表数量 默认：不缓存
+/// 缓存列表数量，LRU算法实现 默认：不缓存
 @property (nonatomic, assign) NSInteger cacheCount;
+
+/// 当前选中下标
+@property (nonatomic, assign, readonly) NSInteger currentIndex;
 
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
