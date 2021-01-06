@@ -132,7 +132,7 @@
 		19F152D72387BE2E0043A86E /* arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 19F152602387BE2E0043A86E /* arrow_down.png */; };
 		19F152D82387BE2E0043A86E /* apple_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 19F152612387BE2E0043A86E /* apple_selected.png */; };
 		B038708881B01AEB14CA909B /* libPods-Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D40F29D0E15B01F380B08AE9 /* libPods-Example.a */; };
-		FD19EADA259C11B700E6299B /* WBCategoryListContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD19EAD9259C11B700E6299B /* WBCategoryListContainerView.m */; };
+		FD08593C25A557B000486275 /* WBCategoryListContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = FD08593A25A557B000486275 /* WBCategoryListContainerView.m */; };
 		FD19EAE0259C239C00E6299B /* ListContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FD19EADF259C239C00E6299B /* ListContainerVC.m */; };
 		FD19EAE4259C240A00E6299B /* ListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = FD19EAE3259C240A00E6299B /* ListVC.m */; };
 /* End PBXBuildFile section */
@@ -363,8 +363,8 @@
 		19F152D92387C3380043A86E /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		C386393D13D5F799E1A1236B /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
 		D40F29D0E15B01F380B08AE9 /* libPods-Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FD19EAD8259C11B700E6299B /* WBCategoryListContainerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBCategoryListContainerView.h; sourceTree = "<group>"; };
-		FD19EAD9259C11B700E6299B /* WBCategoryListContainerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBCategoryListContainerView.m; sourceTree = "<group>"; };
+		FD08593A25A557B000486275 /* WBCategoryListContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WBCategoryListContainerView.m; path = ../../../../../../work/lanlingApp/trunk/HBkuaiMi/HBkuaiMi/KMUIComponent/WBCategoryListContainerView/WBCategoryListContainerView.m; sourceTree = "<group>"; };
+		FD08593B25A557B000486275 /* WBCategoryListContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WBCategoryListContainerView.h; path = ../../../../../../work/lanlingApp/trunk/HBkuaiMi/HBkuaiMi/KMUIComponent/WBCategoryListContainerView/WBCategoryListContainerView.h; sourceTree = "<group>"; };
 		FD19EADE259C239C00E6299B /* ListContainerVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListContainerVC.h; sourceTree = "<group>"; };
 		FD19EADF259C239C00E6299B /* ListContainerVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListContainerVC.m; sourceTree = "<group>"; };
 		FD19EAE2259C240A00E6299B /* ListVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListVC.h; sourceTree = "<group>"; };
@@ -1019,8 +1019,8 @@
 		FD19EAD7259C10E000E6299B /* WBCategoryListContainerView */ = {
 			isa = PBXGroup;
 			children = (
-				FD19EAD8259C11B700E6299B /* WBCategoryListContainerView.h */,
-				FD19EAD9259C11B700E6299B /* WBCategoryListContainerView.m */,
+				FD08593B25A557B000486275 /* WBCategoryListContainerView.h */,
+				FD08593A25A557B000486275 /* WBCategoryListContainerView.m */,
 			);
 			path = WBCategoryListContainerView;
 			sourceTree = "<group>";
@@ -1169,7 +1169,6 @@
 				FD19EAE4259C240A00E6299B /* ListVC.m in Sources */,
 				19BB17302477BE10008E242F /* ScrollUpListViewController.m in Sources */,
 				19F1529B2387BE2E0043A86E /* MJRefreshBackFooter.m in Sources */,
-				FD19EADA259C11B700E6299B /* WBCategoryListContainerView.m in Sources */,
 				19F152B62387BE2E0043A86E /* JXCategoryTitleAttributeCell.m in Sources */,
 				19F152902387BE2E0043A86E /* MJRefreshBackGifFooter.m in Sources */,
 				19F152802387BE2E0043A86E /* ContentBaseViewController.m in Sources */,
@@ -1220,6 +1219,7 @@
 				19F1527D2387BE2E0043A86E /* ImageViewController.m in Sources */,
 				19F152862387BE2E0043A86E /* BaseNavigationViewController.m in Sources */,
 				19BB172A2477B386008E242F /* ScrollUpViewController.m in Sources */,
+				FD08593C25A557B000486275 /* WBCategoryListContainerView.m in Sources */,
 				19F152642387BE2E0043A86E /* ScrollZoomViewController.m in Sources */,
 				19F152BC2387BE2E0043A86E /* JXCategoryTimelineView.m in Sources */,
 				19F152BB2387BE2E0043A86E /* AlignmentLineExampleViewController.m in Sources */,
